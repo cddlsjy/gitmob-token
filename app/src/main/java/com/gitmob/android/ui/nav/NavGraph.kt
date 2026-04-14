@@ -159,12 +159,29 @@ fun AppNavGraph(
     val starVm: com.gitmob.android.ui.repos.StarListViewModel = viewModel()
  
     // 三态初始化状态机：区分"正在加载"与"已加载但无 token"，修复新用户白屏
-    val initState by produceState<AppInitState>(initialValue = AppInitState.Loading) {
+    /*val initState by produceState<AppInitState>(initialValue = AppInitState.Loading) {
         tokenStorage.accessToken.collect { token ->
             value = if (token.isNullOrBlank()) AppInitState.NeedsLogin
                     else AppInitState.Ready(token)
         }
+    }*/
+
+
+    // 三态初始化状态机
+val initState by produceState<AppInitState>(initialValue = AppInitState.Loading) {
+    // 设置一个 3 秒超时，如果还没收到 token，则视为未登录
+    val job = launch {
+        delay(3000)
+        if (value == AppInitState.Loading) {
+            value = AppInitState.NeedsLogin
+        }
     }
+    tokenStorage.accessToken.collect { token ->
+        job.cancel()
+        value = if (token.isNullOrBlank()) AppInitState.NeedsLogin
+                else AppInitState.Ready(token)
+    }
+}
  
     // 初始化阶段显示居中 Loading
     if (initState == AppInitState.Loading) {
