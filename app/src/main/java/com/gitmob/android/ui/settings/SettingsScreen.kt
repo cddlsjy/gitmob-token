@@ -550,7 +550,7 @@ fun SettingsScreen(
                             onClick = {
                                 showLogoutDialog = false
                                 scope.launch {
-                                    tokenStorage.clearActiveAccount()
+                                    tokenStorage.clear()
                                     onLogout()
                                 }
                             },
