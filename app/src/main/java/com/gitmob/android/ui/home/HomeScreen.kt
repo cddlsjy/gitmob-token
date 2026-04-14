@@ -75,8 +75,7 @@ fun HomeScreen(
         }
     }
 
-    // 初始化收藏夹（按登录用户隔离）
-    state.user?.login?.let { login -> LaunchedEffect(login) { favVm.init(login) } }
+    // 初始化收藏夹
 
     var showAddGroupDialog by remember { mutableStateOf(false) }
     var showFavGroupDetail by remember { mutableStateOf<FavGroup?>(null) }

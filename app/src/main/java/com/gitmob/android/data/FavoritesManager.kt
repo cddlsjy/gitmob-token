@@ -92,13 +92,10 @@ class FavoritesManager(app: Application) : AndroidViewModel(app) {
     private val tokenStorage = TokenStorage(app)
     private val _state = MutableStateFlow(FavoritesState())
     val state = _state.asStateFlow()
-    private var currentLogin: String = ""
 
-    fun init(login: String) {
-        if (login == currentLogin) return
-        currentLogin = login
+    init {
         viewModelScope.launch {
-            tokenStorage.favoritesJsonFlow(login).collect { raw ->
+            tokenStorage.favoritesJson.collect { raw ->
                 _state.value = parse(raw)
             }
         }
@@ -141,7 +138,7 @@ class FavoritesManager(app: Application) : AndroidViewModel(app) {
 
     private fun save(newState: FavoritesState) {
         _state.value = newState
-        viewModelScope.launch { tokenStorage.saveFavoritesJson(currentLogin, serialize(newState)) }
+        viewModelScope.launch { tokenStorage.saveFavoritesJson(serialize(newState)) }
     }
 
     // ── 查询 ─────────────────────────────────────────────────────────────────────

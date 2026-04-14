@@ -49,7 +49,7 @@ class TokenStorage(private val context: Context) {
 
     /** 收藏夹 JSON */
     val favoritesJson: Flow<String> = context.dataStore.data.map {
-        it[Keys.FAVORITES] ?: "{\"groups\":[],\"ungrouped\":[]}"
+        it[Keys.FAVORITES] ?: "{\"groups\":[],\"ungrouped\":[],\"allRepos\":[]}"
     }
 
     suspend fun saveFavoritesJson(json: String) {

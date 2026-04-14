@@ -24,7 +24,8 @@ AIGC:
 ## 核心特性
 
 ### 远程仓库管理
- GitMob 从 OAuth + Token 双登录 改为 仅支持 Personal Access Token 登录 的修改大纲。按此操作后，App 将不再包含任何 OAuth 流程、Cloudflare Worker、多账号切换等无关代码，登录界面只有一个 Token 输入框。
+- **OAuth 2.0 安全认证** — Cloudflare Worker 中转，client_secret 永不暴露在客户端
+- **多账号管理** — 支持账号切换与新增，DataStore 持久化存储
 - **仓库操作** — 搜索、筛选（公开/私有）、Star/Unstar、语言标签
 - **文件管理** — 文件树浏览、在线编辑/删除、提交、历史记录与 diff 对比
 - **提交历史** — 完整 commit 列表、逐文件 diff、支持 revert

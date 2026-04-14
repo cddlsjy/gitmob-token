@@ -129,9 +129,6 @@ fun RepoDetailScreen(
     var showSettingsMenu by remember { mutableStateOf(false) }
     var showFavoritesDialog by remember { mutableStateOf(false) }
     val favVm: FavoritesManager = viewModel()
-    state.userLogin.takeIf { it.isNotBlank() }?.let { login ->
-        LaunchedEffect(login) { favVm.init(login) }
-    }
     val favState by favVm.state.collectAsState()
     val isCurrentRepoFavorited = state.repo?.fullName?.let { favVm.isFavorited(it) } ?: false
 
