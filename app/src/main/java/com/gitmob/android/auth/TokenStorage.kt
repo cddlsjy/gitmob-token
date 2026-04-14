@@ -37,7 +37,11 @@ class TokenStorage(private val context: Context) {
         val FAVORITES     = stringPreferencesKey("favorites_json")      // 收藏夹（单账号）
     }
 
-    val accessToken: Flow<String?> = context.dataStore.data.map { it[Keys.ACCESS_TOKEN] }
+    //val accessToken: Flow<String?> = context.dataStore.data.map { it[Keys.ACCESS_TOKEN] }
+    val accessToken: Flow<String?> = context.dataStore.data
+    .map { it[Keys.ACCESS_TOKEN] }
+    .onStart { emit(null) }   // 添加这一行
+    
     val userLogin:   Flow<String?> = context.dataStore.data.map { it[Keys.USER_LOGIN] }
 
     val userProfile: Flow<Triple<String, String, String>?> = context.dataStore.data.map { prefs ->
