@@ -35,19 +35,7 @@ class MainActivity : ComponentActivity() {
 
         // 处理冷启动时就带着 github.com 链接的情况
         handleDeepLink(intent)
-        
-        // 在 setContent 之前添加
-lifecycleScope.launch {
-    delay(3000)
-    if (keepSplashOnScreen) {
-        keepSplashOnScreen = false
-        // 如果 3 秒后仍未登录，强制清除 token 并跳转登录
-        if (tokenStorage.accessToken.first() == null) {
-            // 可选：主动设置一个无效 token 触发重新登录
-            // 或者直接使用 NavController 跳转（但需要访问 navController）
-        }
-    }
-}
+
         setContent {
             val themeMode by tokenStorage.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
             val accessToken by tokenStorage.accessToken.collectAsState(initial = null)
